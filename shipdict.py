@@ -39,5 +39,29 @@ class ShipDict(dict):
         pass
 
 class Ship(object):
+    """
+    basic represtation of a ship, that include is id, is name and country and a list of its known positions
+    """
+    def __init__(self,id,name='na',country='na'):
+        self.id=id
+        self.name)=name
+        self.country=country
+        self.positions=[]
+    
+    def add_position(self,position):
+        pass
+    
+    def sort_positions(self):
+        """
+        sort the positions by chronological order
+        """
+        pass
 
 class Position(object):
+    """
+    A record that encapsulate position datas
+    """
+    def __init__(self,latitude, longitude, time):
+        self.latitude=latitude
+        self.longitude=longitude
+        self.time=time
