@@ -7,55 +7,86 @@ class ShipDict(dict):
     """
 
     def __init__(self):
-        pass
+        super(self)
 
     def clean_unnamed(self):
+        """
+        remove ships without name
+        """
         pass
 
     def add_chunk(self,chunk):
-        pass
+        """
+        add ship position in the dictionary and create a new entry if there is no ship
+        """
+        try :
+            if is_abbreviated(chunk):
+                add_abbreviated(chunk)
+            else :
+                add_extended(chunk)
+        except InvalidImputFormatError:
+            print "some data aren't using the correct format, they won't be used"
 
     def sort(self):
+        """
+        sort by name and id if they have the same name
+        """
         pass
 
     def sort_ships_by_name(self,ships):
         pass
 
     def all_ships(self):
+        """
+        return a list with all the ships in the dictionnary 
+        """
         pass
 
     def ships_by_name(self,name):
+        """
+        return a list with the coordinate of the ship gived in parameter
+        """
         pass
 
     # private methods
-    def add_abbreviated(self):
-        pass
+    def add_abbreviated(self,chunk):
+        if self[chunk[0]] :
+            #creation of a new entry
+            self[chunk[0] : Ship(chunk[0])]
+        self[chunk[0]].add_position(Position(chunk[1],chunk[2],chunk[6]))
 
-    def add_extended(self):
+    def add_extended(self,chunk):
         pass
 
     def is_abbreviated(self,chunk):
-        #tell if the chunk is abreviated or not
-        pass
+        """
+        tell if an imput is abbreviated (7 characters) or not (>=11), may raise an exeption if the imput is <11 and !=7 .
+        """
+        if len(chunk)==7 :
+            return true
+        elif len(chunk)>10 :
+            return false
+        else :
+            raise InvalidImputFormatError
 
 class Ship(object):
     """
     basic represtation of a ship, that include is id, is name and country and a list of its known positions
     """
-    def __init__(self,id,name='na',country='na'):
+    def __init__(self,id,name=None,country=None):
         self.id=id
-        self.name)=name
+        self.name=name
         self.country=country
         self.positions=[]
     
     def add_position(self,position):
-        pass
+        positions.append(position)
     
     def sort_positions(self):
         """
         sort the positions by chronological order
         """
-        pass
+        
 
 class Position(object):
     """
