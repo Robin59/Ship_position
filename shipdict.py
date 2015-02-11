@@ -7,23 +7,25 @@ class ShipDict(dict):
     """
 
     def __init__(self):
-        super(self)
+        dict.__init__(self)
+
 
     def clean_unnamed(self):
         """
-        remove ships without name
+        remove ships without name, be carrefull this method isn't a fonction(don't return anything) and is destructive
         """
-        pass
+        self={ship.id : ship for ship in self.itervalues() if ship.name}
+
 
     def add_chunk(self,chunk):
         """
         add ship position in the dictionary and create a new entry if there is no ship
         """
         try :
-            if is_abbreviated(chunk):
-                add_abbreviated(chunk)
+            if self.is_abbreviated(chunk):
+                self.add_abbreviated(chunk)
             else :
-                add_extended(chunk)
+                self.add_extended(chunk)
         except InvalidImputFormatError:
             print "some data aren't using the correct format, they won't be used"
 
@@ -40,26 +42,27 @@ class ShipDict(dict):
         """
         return a list with all the ships in the dictionnary 
         """
-        pass
+        retun self.values()
 
     def ships_by_name(self,name):
         """
         return a list with the coordinate of the ship gived in parameter
         """
-        pass
+        return [ship for ship in self.itervalues() if ship.name == name]
 
     # private methods
     def add_abbreviated(self,chunk):
-        if self.get(chunk[0], False) :
+        if not self.get(chunk[0], False) :
             #creation of a new entry
             self[chunk[0]] = Ship(chunk[0])
         self[chunk[0]].add_position(Position(chunk[1],chunk[2],chunk[6]))
 
     def add_extended(self,chunk):
-        if self.get(chunk[0],False) :
+        if not self.get(chunk[0],False) :
             #creation of a new entry
             self[chunk[0]] = Ship(chunk[0],chunk[6],chunk[10])
-        elif self[chunk[0]].name : #if the ship doesn't have name and country, we had it
+        elif not self[chunk[0]].name :
+            #if the ship doesn't have name and country, we had it
             self[chunk[0]].name = chunk[6]
             self[chunk[0]].country = chunk[10]
         self[chunk[0]].add_position(Position(chunk[1],chunk[2],chunk[6]))
@@ -69,9 +72,9 @@ class ShipDict(dict):
         tell if an imput is abbreviated (7 characters) or not (>=11), may raise an exeption if the imput is <11 and !=7 .
         """
         if len(chunk)==7 :
-            return true
+            return True
         elif len(chunk)>10 :
-            return false
+            return False
         else :
             raise InvalidImputFormatError
 
@@ -86,7 +89,7 @@ class Ship(object):
         self.positions=[]
     
     def add_position(self,position):
-        positions.append(position)
+        self.positions.append(position)
     
     def sort_positions(self):
         """
@@ -102,3 +105,7 @@ class Position(object):
         self.latitude=latitude
         self.longitude=longitude
         self.time=time
+
+
+class InvalidImputFormatError (Exception):
+    pass
