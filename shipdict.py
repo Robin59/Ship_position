@@ -33,11 +33,15 @@ class ShipDict(dict):
 
     def sort(self):
         """
-        sort by name and id if they have the same name
+        sort the positions of the ships
         """
-        pass
+        for ship in self.itervalues() :
+            ship.sort_positions()
 
     def sort_ships_by_name(self,ships):
+        """
+        return the ship's list gived in argument sorted by name and id if they have the same name
+        """
         return sorted (ships, cmp = ship_compare)
 
     def all_ships(self):
@@ -97,7 +101,7 @@ class Ship(object):
         """
         sort the positions by chronological order
         """
-        
+        self.positions.sort(key= lambda position : position.time)
 
 class Position(object):
     """
