@@ -38,7 +38,7 @@ class ShipDict(dict):
         pass
 
     def sort_ships_by_name(self,ships):
-        return ships
+        return sorted (ships, cmp = ship_compare)
 
     def all_ships(self):
         """
@@ -111,3 +111,16 @@ class Position(object):
 
 class InvalidImputFormatError (Exception):
     pass
+
+
+def ship_compare(ship1, ship2):
+        """
+        compare two different ship by name, if they have the same use the id
+        made for being the cmp arg of the built-in fonction sorted 
+        """
+        if ship1.name < ship2.name :
+            return -1
+        elif ship1.name > ship2.name :
+            return 1
+        else :
+            return ship1.id - ship2.id
