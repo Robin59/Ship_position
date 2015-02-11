@@ -50,13 +50,19 @@ class ShipDict(dict):
 
     # private methods
     def add_abbreviated(self,chunk):
-        if self[chunk[0]] :
+        if self.get(chunk[0], False) :
             #creation of a new entry
-            self[chunk[0] : Ship(chunk[0])]
+            self[chunk[0]] = Ship(chunk[0])
         self[chunk[0]].add_position(Position(chunk[1],chunk[2],chunk[6]))
 
     def add_extended(self,chunk):
-        pass
+        if self.get(chunk[0],False) :
+            #creation of a new entry
+            self[chunk[0]] = Ship(chunk[0],chunk[6],chunk[10])
+        elif self[chunk[0]].name : #if the ship doesn't have name and country, we had it
+            self[chunk[0]].name = chunk[6]
+            self[chunk[0]].country = chunk[10]
+        self[chunk[0]].add_position(Position(chunk[1],chunk[2],chunk[6]))
 
     def is_abbreviated(self,chunk):
         """
