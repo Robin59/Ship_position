@@ -14,7 +14,9 @@ class ShipDict(dict):
         """
         remove ships without name, be carrefull this method isn't a fonction(don't return anything) and is destructive
         """
-        self={ship.id : ship for ship in self.itervalues() if ship.name}
+        rmId =[ship.id for ship in self.itervalues() if ship.name==None]
+        for id in rmId :
+            del self[id]
 
 
     def add_chunk(self,chunk):
@@ -36,13 +38,13 @@ class ShipDict(dict):
         pass
 
     def sort_ships_by_name(self,ships):
-        pass
+        return ships
 
     def all_ships(self):
         """
         return a list with all the ships in the dictionnary 
         """
-        retun self.values()
+        return self.values()
 
     def ships_by_name(self,name):
         """
